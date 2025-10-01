@@ -228,9 +228,9 @@ class PetUtilityViewSet(viewsets.GenericViewSet):
 
 
 # Option 3: Separate ViewSets for different concerns
-class PetReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
+class PetListAPIView(generics.ListAPIView):
     """Read-only operations for public access"""
-    queryset = Pet.objects.filter(status='available').order_by('-created_at')
+    queryset = Pet.objects.order_by('-created_at')
     serializer_class = PetSerializer
     permission_classes = [permissions.AllowAny]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]

@@ -7,7 +7,6 @@ from . import views
 # Router for utility endpoints
 router = DefaultRouter()
 router.register(r'pets/utils', views.PetUtilityViewSet, basename='pet-utils')
-router.register(r'pets/public', views.PetReadOnlyViewSet, basename='pet-public')
 router.register(r'pets/owner', views.PetOwnerViewSet, basename='pet-owner')
 
 urlpatterns = [
