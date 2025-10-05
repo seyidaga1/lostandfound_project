@@ -63,7 +63,6 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React dev server
-    "http://172.20.10.5:3000",  # React from phone
 ]
 
 REST_FRAMEWORK = {

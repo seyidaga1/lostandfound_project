@@ -3,7 +3,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
-
 # Router for utility endpoints
 router = DefaultRouter()
 router.register(r'pets/utils', views.PetUtilityViewSet, basename='pet-utils')
@@ -30,6 +29,9 @@ urlpatterns = [
     path('favorites/', views.FavoriteListView.as_view(), name="favorite-list"),
     path('favorites/<int:pet_id>/', views.AddFavoriteView.as_view(), name="favorite-add"),
     path('favorites/<int:pet_id>/remove/', views.RemoveFavoriteView.as_view(), name="favorite-remove"),
+
+
+    path('contact/', views.ContactCreateView.as_view(), name='contact-create'),
 
     # ViewSet-based utility and specialized endpoints
     path('', include(router.urls)),

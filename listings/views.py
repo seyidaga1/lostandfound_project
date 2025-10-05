@@ -8,6 +8,11 @@ from .models import Pet,Favorite
 from .serializers import PetSerializer,FavoriteSerializer
 from .filters import PetFilter
 from django.shortcuts import get_object_or_404
+from .models import ContactMessage
+from .serializers import ContactMessageSerializer
+from rest_framework.permissions import AllowAny
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Option 1: Separate Generic Views for each CRUD operation
@@ -370,3 +375,26 @@ class RemoveFavoriteView(generics.DestroyAPIView):
         favorite = get_object_or_404(Favorite, user=request.user, pet_id=pet_id)
         favorite.delete()
         return Response({"message": "Pet removed from favorites"}, status=status.HTTP_200_OK)
+    
+@method_decorator(csrf_exempt, name='dispatch')
+class ContactCreateView(generics.CreateAPIView):
+    """Handle contact form submission"""
+    queryset = ContactMessage.objects.all()
+    serializer_class = ContactMessageSerializer
+    permission_classes = [AllowAny]
+    
+    def create(self, request, *args, **kwargs):
+        print("Received data:", request.data)  # Debug print
+        
+        serializer = self.get_serializer(data=request.data)
+        
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            print("Message saved successfully")  # Debug print
+            return Response(
+                {'message': 'Mesajınız uğurla göndərildi!'},
+                status=status.HTTP_201_CREATED
+            )
+        
+        print("Validation errors:", serializer.errors)  # Debug print
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
